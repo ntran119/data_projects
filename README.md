@@ -1,2 +1,2 @@
 # data_projects
-Personal Projects
+A repo for my notebooks/projects
