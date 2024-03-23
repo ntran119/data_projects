@@ -22,5 +22,5 @@ From the exploratory data analysis, we found some interesting insights.
 
 * While exploring for multi-colinear variables, our correlation matrix reveals that being a smoker is highly correlated with increased insurance charges. 
 
-! [CR_mat](figures/cor_mat.png)
+![CR_mat](figures/cor_mat.png)
 
