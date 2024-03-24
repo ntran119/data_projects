@@ -14,24 +14,22 @@ The main objective of this project is:
 To achieve this, the objectives are futher broken down into 3 sub-objectives
 1. Main Insights: Perform exploratory data analysis of the dataset and report key findings
 2. Model Training: Train a Linear Model and analyze the significance and impact of its coefficients
-3. Evaluate/Improve the Model
+3. Evaluation: Analyze the residuals and suggest model improvements
 
 ## Main Insights
 
-From the exploratory data analysis, we found some interesting insights.
-
-While exploring for multi-colinear variables, our correlation matrix reveals that being a smoker is highly correlated with increased insurance charges:
+During our exploratory data analysis, we uncovered several noteworthy insights. While examining for multicollinearity among variables, our correlation matrix revealed a strong positive correlation between smoking status and increased insurance charges. This suggests that individuals who smoke tend to have higher medical insurance costs compared to non-smokers.
 
 ![CR_mat](figures/cor_mat.png)
 
 
-There are other interesting associations in the matrix such as BMI being positively associated with a southeast region and insurance charges being positively correlated with BMI and age. To further explore the effect of smoking on insurance charges we visualized the difference between smoking and non-smoker on a histogram
+Additionally, we observed other interesting associations in the correlation matrix. For instance, there was a positive correlation between BMI and living in the southeast region, as well as between insurance charges, BMI, and age. These associations provide valuable insights into potential relationships between different variables in our dataset.
 
 ![smoking_hist](figures/smoker_histogram.png)
 
-The associated insurance charges for Smokers has a higher variability overall (the insurance changes are more spread). The distributions of the two categories is visually distinct. There is only a small overlap of values and the means of both distributions are quite far apart. This is good indication that being a smoker has a significant likely-hood of increasing medical insurance costs. 
+To delve deeper into the impact of smoking on insurance charges, we visualized the difference between smokers and non-smokers using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying a higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual evidence strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
 
-We ran a two-sample t-test (2 tail) to compare the medical insurance costs of these two populations.
+To quantitatively assess the difference in insurance costs between smokers and non-smokers, we conducted a two-sample t-test (two-tailed) comparing the means of the two populations.
 
 $H_0$: There is no difference between these two populations. $\mu_a = \mu_b$
 
@@ -47,10 +45,12 @@ p_value: 1.4067220949376498e-282
 Reject the Null Hypothesis, the test is significant (p-value < 0.05)
 ```
 
-From the results of the test, we reject the Null Hypothesis. Smoking is a significant factor in determining insurance charges. This indicates that it will have a high linear coefficient in our model.
+The results of the test led us to reject the null hypothesis, providing strong evidence that smoking status is indeed a significant determinant of insurance charges. Consequently, we anticipate that smoking will have a high linear coefficient in our regression model, reflecting its substantial impact on insurance costs.
 
 
 ## Model Training 
+
+A linear model was trained to predict medical insurance charges using the statsmodels library. 
 
 ```shell
              Coefficient  T-Statistic       P-Value   P-value < 0.05
@@ -68,3 +68,15 @@ R-Squared = 0.751
 ```
 
 ![model_coeff](figures/linear_coeff.png)
+
+Based on the linear regression model we constructed, we found that the model has an R-squared value of 0.751. This indicates that approximately 75% of the variability in medical insurance charges in our dataset can be explained by the predictors included in the model. In other words, our model captures a significant portion of the variance in insurance charges, suggesting that it provides a reasonably good fit to the data.
+
+One of the key predictors that emerged from our analysis is smoking status. We observed that smoking has a high coefficient in the model, and its associated p-value is statistically significant. This suggests that smoking status is a strong predictor of higher insurance charges. Individuals who smoke tend to have significantly higher insurance charges compared to non-smokers, after accounting for other factors included in the model.
+
+On the other hand, factors such as gender (male) and geographical region (specifically living in the northwest or southeast regions) were found to be non-significant based on their p-values. This implies that these variables do not have a statistically significant impact on insurance charges in our model. As a result, we may consider dropping these variables from the model in order to optimize its predictive performance further. By removing non-significant predictors, we can potentially simplify the model without sacrificing its explanatory power, leading to a more parsimonious and interpretable model.
+
+## Evaluation
+
+
+![model_resids](figures/residual_plots.png)
+
