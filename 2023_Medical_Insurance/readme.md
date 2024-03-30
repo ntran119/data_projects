@@ -18,18 +18,18 @@ To achieve this, the objectives are futher broken down into 3 sub-objectives
 
 ## Main Insights
 
-During our exploratory data analysis, we uncovered several noteworthy insights. While examining for multicollinearity among variables, our correlation matrix revealed a strong positive correlation between smoking status and increased insurance charges. This suggests that individuals who smoke tend to have higher medical insurance costs compared to non-smokers.
+During the exploratory data analysis, several noteworthy insights were uncovered. While examining for multicollinearity among variables, a strong positive correlation between smoking status and increased insurance charges was revealed in the correlation matrix. This indicates that individuals who smoke tend to have higher medical insurance costs compared to non-smokers.
 
 ![CR_mat](figures/cor_mat.png)
 
 
-Additionally, we observed other interesting associations in the correlation matrix. For instance, there was a positive correlation between BMI and living in the southeast region, as well as between insurance charges, BMI, and age. These associations provide valuable insights into potential relationships between different variables in our dataset.
+Additionally, other interesting associations were observed in the correlation matrix. For instance, a positive correlation was found between BMI and living in the southeast region, as well as between insurance charges, BMI, and age. These associations provide valuable insights into potential relationships between different variables in the dataset.
 
 ![smoking_hist](figures/smoker_histogram.png)
 
-To delve deeper into the impact of smoking on insurance charges, we visualized the difference between smokers and non-smokers using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying a higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual evidence strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
+To further investigate the impact of smoking on insurance charges, the difference between smokers and non-smokers was visualized using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual evidence strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
 
-To quantitatively assess the difference in insurance costs between smokers and non-smokers, we conducted a two-sample t-test (two-tailed) comparing the means of the two populations.
+A two-sample t-test (two-tailed) comparing the means of insurance costs between smokers and non-smokers was conducted to quantitatively assess the difference
 
 $H_0$: There is no difference between these two populations. $\mu_a = \mu_b$
 
@@ -45,7 +45,7 @@ p_value: 1.4067220949376498e-282
 Reject the Null Hypothesis, the test is significant (p-value < 0.05)
 ```
 
-The results of the test led us to reject the null hypothesis, providing strong evidence that smoking status is indeed a significant determinant of insurance charges. Consequently, we anticipate that smoking will have a high linear coefficient in our regression model, reflecting its substantial impact on insurance costs.
+The results of the test led to the rejection of the null hypothesis, providing strong evidence that smoking status is indeed a significant determinant of insurance charges. Consequently, it is anticipated that smoking will have a high linear coefficient in the regression model, reflecting its substantial impact on insurance costs.
 
 
 ## Model Training 
@@ -69,19 +69,18 @@ R-Squared = 0.751
 
 ![model_coeff](figures/linear_coeff.png)
 
-Based on the linear regression model we constructed, we found that the model has an R-squared value of 0.751. This indicates that approximately 75% of the variability in medical insurance charges in our dataset can be explained by the predictors included in the model. In other words, our model captures a significant portion of the variance in insurance charges, suggesting that it provides a reasonably good fit to the data.
+A linear regression model was trained to predict medical insurance charges using the statsmodels library. Based on the constructed model, an R-squared value of 0.751 was obtained, indicating that approximately 75% of the variability in medical insurance charges in the dataset can be explained by the predictors included in the model. This suggests that the model provides a reasonably good fit to the data.
 
-One of the key predictors that emerged from our analysis is smoking status. We observed that smoking has a high coefficient in the model, and its associated p-value is statistically significant. This suggests that smoking status is a strong predictor of higher insurance charges. Individuals who smoke tend to have significantly higher insurance charges compared to non-smokers, after accounting for other factors included in the model.
+One of the key predictors that emerged from the analysis is smoking status, which was found to have a high coefficient in the model and a statistically significant associated p-value. This suggests that smoking status is a strong predictor of higher insurance charges, even after accounting for other factors included in the model.
 
-On the other hand, factors such as gender (male) and geographical region (specifically living in the northwest or southeast regions) were found to be non-significant based on their p-values. This implies that these variables do not have a statistically significant impact on insurance charges in our model. As a result, we may consider dropping these variables from the model in order to optimize its predictive performance further. By removing non-significant predictors, we can potentially simplify the model without sacrificing its explanatory power, leading to a more parsimonious and interpretable model.
+On the other hand, factors such as gender (male) and geographical region (specifically living in the northwest or southeast regions) were found to be non-significant based on their p-values. This implies that these variables do not have a statistically significant impact on insurance charges in the model. Therefore, consideration may be given to dropping these variables from the model to optimize its predictive performance further.
 
 ## Evaluation
 
 
 ![model_resids](figures/residual_plots.png)
 
-Upon examining the histogram of model residuals, we observed that the distribution appears to have a right skew. This suggests that the residuals are not perfectly normally distributed and may contain outliers or systematic deviations from the model's predictions.
+Upon examining the histogram of model residuals, it was observed that the distribution appears to have a right skew, indicating that the residuals are not perfectly normally distributed and may contain outliers or systematic deviations from the model's predictions. Additionally, deviations from the straight line pattern were noticed in the probability plot, particularly in the tails of the distribution, suggesting that the distribution of residuals may have heavier tails than a normal distribution.
 
-Furthermore, when inspecting the probability plot, we noticed deviations from the straight line pattern, particularly in the tails of the distribution. This deviation indicates that the distribution of residuals may have heavier tails than a normal distribution, implying that extreme values occur more frequently than expected under normality assumptions.
+Furthermore, the homoscedasticity plot revealed a pattern where the variance of the residuals spreads out more as the values of the predictor variable (X) increase. This phenomenon suggests that the model's predictions become less reliable for higher insurance costs, indicating a potential limitation in predictive accuracy for higher insurance charges.
 
-In addition, our homoscedasticity plot revealed an interesting pattern. As the values of the predictor variable (X) increase, the variance of the residuals appears to spread out more. This phenomenon suggests that our model's predictions become less reliable for higher insurance costs. In other words, while our model may perform well for moderate insurance charges, its predictive accuracy diminishes as the insurance costs increase.
