@@ -27,7 +27,7 @@ Additionally, other interesting associations were observed in the correlation ma
 
 ![smoking_hist](figures/smoker_histogram.png)
 
-To further investigate the impact of smoking on insurance charges, the difference between smokers and non-smokers was visualized using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual evidence strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
+To further investigate the impact of smoking on insurance charges, the difference between smokers and non-smokers was visualized using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
 
 A two-sample t-test (two-tailed) comparing the means of insurance costs between smokers and non-smokers was conducted to quantitatively assess the difference
 
