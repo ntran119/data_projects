@@ -82,5 +82,5 @@ On the other hand, factors such as gender (male) and geographical region (specif
 
 Upon examining the histogram of model residuals, it was observed that the distribution appears to have a right skew, indicating that the residuals are not perfectly normally distributed and may contain outliers or systematic deviations from the model's predictions. Additionally, deviations from the straight line pattern were noticed in the probability plot, particularly in the tails of the distribution, suggesting that the distribution of residuals may have heavier tails than a normal distribution.
 
-Furthermore, the homoscedasticity plot revealed a pattern where the variance of the residuals spreads out more as the values of the predictor variable (X) increase. This phenomenon suggests that the model's predictions become less reliable for higher insurance costs, indicating a potential limitation in predictive accuracy for higher insurance charges.
+The homoscedasticity plot revealed a pattern where the variance of the residuals spreads out more as the values of the fitted variable (X) increase. This suggests that the model's predictions become less reliable for higher insurance costs, indicating a potential limitation in predictive accuracy for higher insurance charges.
 

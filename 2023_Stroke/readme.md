@@ -44,7 +44,7 @@ p_value: 7.0307775129939774e-71
 Reject the Null Hypothesis, the test is significant (p-value < 0.05)
 ```
 
-The results of the t-test led to the rejection of the null hypothesis, providing strong evidence that age is a significant determinant of stroke. This implies that age will likely possess a high coefficient when training our logistic regression model.
+The results of the t-test led to the rejection of the null hypothesis, providing strong evidence that age is a significant determinant of stroke.
 
 ## Model Training 
 
@@ -73,7 +73,7 @@ smoking_status_smokes              0.146531     0.634982  5.254398e-01  Not Sign
 
 Analysis of the logistic regression model coefficients reveals that age, hypertension, and average glucose level are significant factors in determining the likelihood of stroke.
 
-The odds ratio of hypertension is highest at 1.5, indicating that if a patient has hypertension, their odds of experiencing a stroke increase by approximately 1.49 times. Furthermore, the odds ratio of 1.5 suggests a moderate positive association between hypertension and stroke. Additionally, it possesses a VIF factor of 1.2, indicating no multicollinearity with other predictor variables.
+The odds ratio of hypertension is highest at 1.5, indicating that if a patient has hypertension, their odds of experiencing a stroke increase by approximately 1.5 times. Furthermore, the odds ratio of 1.5 suggests a moderate positive association between hypertension and stroke. Additionally, it possesses a VIF factor of 1.2, indicating no multicollinearity with other predictor variables.
 
 Conversely, age and average glucose level exhibit VIF values greater than 6, suggesting a high association with other predictors. Therefore, it is advisable to consider dropping these variables to optimize the model, along with other insignificant features.
 
@@ -82,8 +82,8 @@ Conversely, age and average glucose level exhibit VIF values greater than 6, sug
 ```shell
  Overall Model Accuracy: 95.15
  ```
-![model_acc](figures/model_performance_over_thresholds.png)
+![model_acc](figures/accuracy_and_confusion_matrix_subplots.png)
 
-The overall model accuracy is calculated to be 95.15%, indicating a remarkably high level of accuracy and suggesting strong performance of the model. However, when investigating the model accuracy across different thresholds, it becomes evident that the model achieves exceptionally high accuracy, surpassing 80%, even with a low threshold set at 0.1. This observation underscores the impact of class imbalance within the dataset, as there are relatively few observations of patients with stroke compared to those without.
+The overall model accuracy is calculated to be 95.15%, indicating a remarkably high level of accuracy and suggesting strong performance of the model. However, when investigating the model accuracy across different thresholds, it becomes evident that the model achieves exceptionally high accuracy, surpassing 80%, even with a low threshold set at 0.1. This observation underscores the impact of class imbalance within the dataset, as there are relatively few observations of patients with stroke compared to those without. This notion is further supported by the confusion matrix, which reveals that the model predominantly predicts observations as non-stroke, yet still attains a 95% accuracy rate.
 
 It might be best to explore the utilization of resampling techniques, such as oversampling the stroke class, to mitigate the impact of class imbalance on model evaluation. This approach aims to address the disparity in class frequencies by artificially increasing the representation of the minority class, thereby potentially improving the model's ability to accurately predict stroke occurrences.
