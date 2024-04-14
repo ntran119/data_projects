@@ -18,16 +18,16 @@ To achieve this, the objectives are futher broken down into 3 sub-objectives
 
 ## Main Insights
 
-During the exploratory data analysis, several noteworthy insights were uncovered. While examining for multicollinearity among variables, a strong positive correlation between smoking status and increased insurance charges was revealed in the correlation matrix. This indicates that individuals who smoke tend to have higher medical insurance costs compared to non-smokers.
+During the EDA, several noteworthy insights were uncovered. While examining for multicollinearity among features, a strong positive correlation between smoking status and increased insurance charges was revealed in the correlation matrix. This indicates that smokers generally pay more for medical insurance than non-smokers.
 
 ![CR_mat](figures/cor_mat.png)
 
 
-Additionally, other interesting associations were observed in the correlation matrix. For instance, a positive correlation was found between BMI and living in the southeast region, as well as between insurance charges, BMI, and age. These associations provide valuable insights into potential relationships between different variables in the dataset.
+Additionally, other interesting associations were observed in the correlation matrix. For instance, a positive correlation was found between BMI and living in the southeast region, as well as between insurance charges, BMI, and age. These findings provide valuable hints into potential connections between different variables in the dataset.
 
 ![smoking_hist](figures/smoker_histogram.png)
 
-To further investigate the impact of smoking on insurance charges, the difference between smokers and non-smokers was visualized using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying higher insurance costs with higher variability. Furthermore, the means of both distributions were notably different, indicating a significant disparity in insurance charges between the two groups. This visual strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
+To further investigate the impact of smoking on insurance charges, the difference between smokers and non-smokers was visualized using a histogram. The distributions of insurance charges for smokers and non-smokers exhibited distinct patterns, with smokers displaying higher insurance costs. Additionally, the means of both distributions were notably different, which strongly suggests that smoking status is a significant factor contributing to increased medical insurance costs.
 
 A two-sample t-test (two-tailed) comparing the means of insurance costs between smokers and non-smokers was conducted to quantitatively assess the difference
 
