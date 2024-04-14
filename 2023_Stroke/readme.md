@@ -51,22 +51,22 @@ The results of the t-test led to the rejection of the null hypothesis, providing
 A logistic model was trained to predict medical insurance charges using the statsmodels library
 
 
-```shell
-	Coefficient	Z-Statistic	P-Value	P-value < 0.05	odds_ratio	VIF
-age	0.070759	13.111353	2.834943e-39	Significant	1.073	6.694922
-hypertension	0.404587	2.460286	1.388262e-02	Significant	1.499	1.205089
-heart_disease	0.292121	1.533414	1.251740e-01	Not Significant	1.339	1.161208
-avg_glucose_level	0.004061	3.399995	6.738713e-04	Significant	1.004	6.188126
-bmi	-0.001324	-0.117977	9.060857e-01	Not Significant	0.999	10.439046
-gender_Male	0.008921	0.063058	9.497203e-01	Not Significant	1.009	1.672654
-gender_Other	-3.353043	-0.050460	9.597559e-01	Not Significant	0.035	1.002318
-work_type_Never_worked	-16.405281	-0.000924	9.992627e-01	Not Significant	0.000	1.017193
-work_type_Private	0.267173	1.884524	5.949407e-02	Not Significant	1.306	2.526406
-Residence_type_Urban	0.091492	0.663227	5.071854e-01	Not Significant	1.096	1.935815
-smoking_status_formerly smoked	0.045085	0.218489	8.270478e-01	Not Significant	1.046	1.858002
-smoking_status_never smoked	-0.154715	-0.788922	4.301574e-01	Not Significant	0.857	2.574499
-smoking_status_smokes	0.146531	0.634982	5.254398e-01	Not Significant	1.158	1.675731
-```
+|                                |   Coefficient |   Z-Statistic |   P-Value |   P-value < 0.05 |   odds_ratio |    VIF |
+|-------------------------------:|--------------:|--------------:|----------:|-----------------:|-------------:|-------:|
+|                            age |         0.071 |        13.111 |     0.000 |      Significant |        1.073 |  6.695 |
+|                   hypertension |         0.405 |         2.460 |     0.014 |      Significant |        1.499 |  1.205 |
+|                  heart_disease |         0.292 |         1.533 |     0.125 |  Not Significant |        1.339 |  1.161 |
+|              avg_glucose_level |         0.004 |         3.400 |     0.001 |      Significant |        1.004 |  6.188 |
+|                            bmi |        -0.001 |        -0.118 |     0.906 |  Not Significant |        0.999 | 10.439 |
+|                    gender_Male |         0.009 |         0.063 |     0.950 |  Not Significant |        1.009 |  1.673 |
+|                   gender_Other |        -3.353 |        -0.050 |     0.960 |  Not Significant |        0.035 |  1.002 |
+|         work_type_Never_worked |       -16.405 |        -0.001 |     0.999 |  Not Significant |        0.000 |  1.017 |
+|              work_type_Private |         0.267 |         1.885 |     0.059 |  Not Significant |        1.306 |  2.526 |
+|           Residence_type_Urban |         0.091 |         0.663 |     0.507 |  Not Significant |        1.096 |  1.936 |
+| smoking_status_formerly smoked |         0.045 |         0.218 |     0.827 |  Not Significant |        1.046 |  1.858 |
+|    smoking_status_never smoked |        -0.155 |        -0.789 |     0.430 |  Not Significant |        0.857 |  2.574 |
+|          smoking_status_smokes |         0.147 |         0.635 |     0.525 |  Not Significant |        1.158 |  1.676 |
+
 
 ![model_coeff](figures/log_coeff.png)
 
