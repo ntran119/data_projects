@@ -14,7 +14,7 @@ The main objective of this project is:
 To achieve this, the objectives are futher broken down into 3 sub-objectives
 1. Main Insights: Perform exploratory data analysis of the dataset and report key findings
 2. Model Training: Train a Logistic Model and analyze the significance and impact of its coefficients
-3. Evaluation: Analyze the residuals and suggest model improvements
+3. Evaluation: Analyze the accuracy and suggest model improvements
 
 ## Main Insights
 
@@ -77,6 +77,7 @@ The odds ratio of hypertension is highest at 1.5, indicating that if a patient h
 
 Conversely, age and average glucose level exhibit VIF values greater than 6, suggesting a high association with other predictors. Therefore, it is advisable to consider dropping these variables to optimize the model, along with other insignificant features.
 
+## Evaluation
 
 ```shell
  Overall Model Accuracy: 95.15
@@ -84,3 +85,5 @@ Conversely, age and average glucose level exhibit VIF values greater than 6, sug
 ![model_acc](figures/model_performance_over_thresholds.png)
 
 The overall model accuracy is calculated to be 95.15%, indicating a remarkably high level of accuracy and suggesting strong performance of the model. However, when investigating the model accuracy across different thresholds, it becomes evident that the model achieves exceptionally high accuracy, surpassing 80%, even with a low threshold set at 0.1. This observation underscores the impact of class imbalance within the dataset, as there are relatively few observations of patients with stroke compared to those without.
+
+It might be best to explore the utilization of resampling techniques, such as oversampling the stroke class, to mitigate the impact of class imbalance on model evaluation. This approach aims to address the disparity in class frequencies by artificially increasing the representation of the minority class, thereby potentially improving the model's ability to accurately predict stroke occurrences.
