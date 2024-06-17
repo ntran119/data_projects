@@ -1,18 +1,40 @@
 ---
-title: "R Notebook"
+title: "Used Cars Cleaning Notebook"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+This is the cleaning notebook for the used cars dataset. The dataset comes from kaggle: ('https://www.kaggle.com/datasets/austinreese/craigslist-carstrucks-data')
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+Once the dataset is thoroughly cleaned, an R Shiny dashboard will be created from the data.
 
-```{r}
-plot(cars)
+
+```{r, results = "hide", message = FALSE, warning = FALSE}
+### load tidyverse library
+library(tidyverse)
+
+### read in data
+df <- read_csv("vehicles.csv")
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+```{r, message = FALSE, warning = FALSE}
+### Check shape of the dataset
+df %>% dim()
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+The dataset has been sucessfully loaded and contains 426k rows and 26 columns of data
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+## Cleaning
+- Explore the dataset and remove unwanted columns and Null values
+
+```{r, message = FALSE, warning = FALSE}
+### Examine columns
+df %>% colnames()
+```
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the first 5 rows that do not have any nulls in the column 'year'
+df %>%
+  filter(!is.na(year)) %>%
+  head(5)
+```
+
