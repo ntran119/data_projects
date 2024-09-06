@@ -7,7 +7,6 @@ This is the cleaning notebook for the used cars dataset. The dataset comes from 
 
 Once the dataset is thoroughly cleaned, an R Shiny dashboard will be created from the data.
 
-
 ```{r, results = "hide", message = FALSE, warning = FALSE}
 ### load tidyverse library
 library(tidyverse)
@@ -37,4 +36,297 @@ df %>%
   filter(!is.na(year)) %>%
   head(5)
 ```
+Rows that we don't need
+- url, region_url, VIN, image_url, description, lat, long, posting_date
+Look into
+- drive, size, type
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df <- df %>%
+  select(-url, -region_url, -VIN, -image_url, -description, -lat, -long, -posting_date)
+
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(drive) %>%
+  mutate(proportion = n / sum(n))
+
+```
+
+About 30% of these rows do not have a designated driving type, that is a large chunk of the data set, lets explore more and cut down on others and come back to this column and see what is left
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(size) %>%
+  mutate(proportion = n / sum(n))
+
+```
+70% of the data does not have a designated size
+- we might just remove this column?
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(type) %>%
+  mutate(proportion = n / sum(n))
+
+```
+
+There are no Nulls in the type column, but most cars are either sedans and SUVs
+- We will probably get rid of non-normal vehicles like bus/offroad
+
+```{r, message = FALSE, warning = FALSE}
+### Examine columns
+df %>% colnames()
+```
+
+
+I want to keep all of these columns if we can reliably fill the missing data
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine columns
+df %>%
+  summarise_all(~ sum(is.na(.))) %>%
+  pivot_longer(cols = everything(), names_to = "Column", values_to = "NA_Count") %>%
+  mutate(Proportion = NA_Count / nrow(df))
+```
+
+### Year Column
+ 
+```{r, message = FALSE, warning = FALSE}
+### Examine columns
+df['year'] %>% summary()
+```
+
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df %>% 
+  count(year) %>%
+  mutate(proportion = n / sum(n)) %>%
+  ggplot(aes(x = year, y = n)) + 
+  geom_col(fill = "#0073C2FF", alpha = 0.8, width = 0.7) + 
+  geom_vline(xintercept = 2000, color = "red", linetype = "dashed", size = 1) +
+  labs(
+    title = "Distribution of Vehicles by Year",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 15)
+```
+
+Remove data from before 2000?
+- most cars being sold are in the range of 2008-2017 
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df <- df %>% 
+  filter(year >= 2000)
+```
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df %>% 
+  count(year) %>%
+  mutate(proportion = n / sum(n)) %>%
+  ggplot(aes(x = year, y = n)) + 
+  geom_col(fill = "#0073C2FF", alpha = 0.8, width = 0.7)+
+  labs(
+    title = "Distribution of Vehicles by Year",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 15)
+```
+
+### Price Column
+Clean Price Column
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of the  price column
+df %>%
+  count(price) %>%
+  mutate(price_bucket = cut(
+    price,
+    breaks = c(-Inf, seq(2000, 80000, by = 2000), Inf),
+    labels = c("<=2k", paste(seq(2, 78, by = 2), "k-", seq(4, 80, by = 2), "k", sep = ""), ">80k"),
+    right = TRUE
+  )) %>%
+  ggplot(aes(x = price_bucket)) + 
+  geom_bar(fill = "#0073C2FF", color = "black", alpha = 0.7) + 
+  labs(
+    title = "Histogram of Vehicle Prices",
+    x = "Price Bucket",
+    y = "Count"
+  ) + 
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(face = "bold")
+  ) +
+  scale_x_discrete(drop = FALSE)
+```
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df %>%
+  mutate(price_bucket = cut(
+    price,
+    breaks = c(-Inf, seq(2000, 80000, by = 2000), Inf),
+    labels = c("<=2k", paste(seq(2, 78, by = 2), "k-", seq(4, 80, by = 2), "k", sep = ""), ">80k"),
+    right = TRUE
+  )) %>%
+  count(price_bucket) %>%
+  mutate(proportion = n / sum(n)*100)
+  
+```
+
+about 12.8% of the data contains observations where the price of the car is less than 2000 dollars
+- about 3.4% have prices listed >80k, i am going to remove these
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df <- df %>% 
+  filter(price < 80000)
+```
+
+
+check the price column again
+- use increments of 500
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of the  price column
+df %>%
+  count(price) %>%
+  mutate(price_bucket = cut(
+    price,
+    breaks = c(-Inf, seq(500, 80000, by = 500), Inf),
+    labels = c("<=500", paste(seq(0.5, 79.5, by = 0.5), "k-", seq(1, 80, by = 0.5), "k", sep = ""), ">80k"),
+    right = TRUE
+  )) %>%
+  ggplot(aes(x = price_bucket)) + 
+  geom_bar(fill = "#0073C2FF", color = "black", alpha = 0.7) + 
+  labs(
+    title = "Histogram of Vehicle Prices (500 Increments)",
+    x = "Price Bucket",
+    y = "Count"
+  ) + 
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(face = "bold")
+  ) +
+  scale_x_discrete(drop = FALSE)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df %>%
+  mutate(price_bucket = cut(
+    price,
+    breaks = c(-Inf, seq(500, 80000, by = 500), Inf),
+    labels = c("<=500", paste(seq(0.5, 79.5, by = 0.5), "k-", seq(1, 80, by = 0.5), "k", sep = ""), ">80k"),
+    right = TRUE
+  )) %>%
+  count(price_bucket) %>%
+  mutate(proportion = n / sum(n)*100)
+  
+```
+19% of the cars have prices less than 1000$, i will get rid of these
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of year column
+df <- df %>% 
+  filter(price > 1000)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine distribution of the  price column
+df %>%
+  count(price) %>%
+  mutate(price_bucket = cut(
+    price,
+    breaks = c(-Inf, seq(500, 80000, by = 500), Inf),
+    labels = c("<=500", paste(seq(0.5, 79.5, by = 0.5), "k-", seq(1, 80, by = 0.5), "k", sep = ""), ">80k"),
+    right = TRUE
+  )) %>%
+  ggplot(aes(x = price_bucket)) + 
+  geom_bar(fill = "#0073C2FF", color = "black", alpha = 0.7) + 
+  labs(
+    title = "Histogram of Vehicle Prices (500 Increments)",
+    x = "Price Bucket",
+    y = "Count"
+  ) + 
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(face = "bold")
+  ) +
+  scale_x_discrete(drop = FALSE)
+```
+
+ok this looks good to me, i guess...
+
+
+### Region Column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(region) %>%
+  mutate(proportion = n / sum(n))
+
+```
+
+There are too many regions, they span different cities and subdivisions in the USA
+- if i were to keep this column it would be too many variables to account for.
+- i am going to drop this column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  select(-region)
+
+```
+
+
+### manufacturer Column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(manufacturer) %>%
+  mutate(proportion = n / sum(n))
+
+```
+
+This is an important column to keep, i need to remove cars without a manufacturer
+- and also remove manufacturer in which we don't have many observations with (<1000)
+- aston-martin 16
+- ferrari 3
+- harley-davidson 124
+- land rover 9
+- morgan 1
+- mercury 773
+- tesla 799
+- saturn 984
+- NA
+
 
