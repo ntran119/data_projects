@@ -38,7 +38,8 @@ df %>%
 ```
 Rows that we don't need
 - url, region_url, VIN, image_url, description, lat, long, posting_date
-Look into
+
+Look into columns for missing values
 - drive, size, type
 
 ```{r, message = FALSE, warning = FALSE}
@@ -317,10 +318,11 @@ df %>%
 
 ```
 
-This is an important column to keep, i need to remove cars without a manufacturer
-- and also remove manufacturer in which we don't have many observations with (<1000)
+This is an important column to keep, i need to remove cars without a manufacturer and also remove manufacturers in which we don't have many observations with (<1000)
 - aston-martin 16
+- alfa-romeo 828
 - ferrari 3
+- fiat 700
 - harley-davidson 124
 - land rover 9
 - morgan 1
@@ -328,5 +330,92 @@ This is an important column to keep, i need to remove cars without a manufacture
 - tesla 799
 - saturn 984
 - NA
+
+```{r, message = FALSE, warning = FALSE}
+### drop manufacturers with small sample size
+
+# Define the list of manufacturers to filter
+low_manufacturers <- c("aston-martin", "ferrari", "harley-davidson", 
+                            "land rover", "morgan", "mercury", "tesla", "saturn", 'fiat', 'alfa-romeo')
+
+# Filter the data to exclude the selected manufacturers and NA values
+df <- df %>%
+  filter(!(manufacturer %in% low_manufacturers) & !is.na(manufacturer))
+
+```
+
+```{r, message = FALSE, warning = FALSE}
+### check
+df %>%
+  count(manufacturer) %>%
+  mutate(proportion = n / sum(n))
+
+
+```
+
+### model Column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the drive column and count
+df %>%
+  count(model) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+
+this column has too many variables, i will drop it. there is a type column that indicates general models like 'sedan' or 'coupe' which might be enough
+
+### condition Column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the condition column and count
+df %>%
+  count(condition) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+
+38% of cars have missing data in this column
+- ill designate these as 'fair'
+
+remove the rows with salvage and new
+- there is not enough data
+
+replace 'like new' with excellent
+
+```{r, message = FALSE, warning = FALSE}
+# Remove rows with 'new' or 'salvage' in 'condition' and replace NAs with 'fair'
+df <- df %>%
+  filter(!(condition %in% c("new", "salvage"))) %>%
+  mutate(
+    condition = replace_na(condition, "fair"),
+    condition = if_else(condition == "like new", "excellent", condition)
+  )
+
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the condition column and count
+df %>%
+  count(condition) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+
+### cylinders Column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the cylinders column and count
+df %>%
+  count(cylinders) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+
 
 
