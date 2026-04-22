@@ -2,7 +2,7 @@
 
 A Streamlit dashboard for sequential Bayesian A/B testing on conversion rates.
 Configure experiment parameters, run Monte Carlo simulations, and explore decision outcomes interactively.
-
+https://2025bayesianabdashboard-ewov9mndg2zphfrjbtmwd4.streamlit.app/
 ## Features
 
 - Sequential Bayesian testing with Beta-Binomial conjugate model
