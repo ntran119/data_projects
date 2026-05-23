@@ -58,7 +58,7 @@ df %>%
 
 ```
 
-About 30% of these rows do not have a designated driving type, that is a large chunk of the data set, lets explore more and cut down on others and come back to this column and see what is left
+About 30% of these rows do not have a designated driving type, that is a large chunk of the data set, explore more and cut down on others and come back to this column and see what is left
 
 ```{r, message = FALSE, warning = FALSE}
 ### Examine the drive column and count
@@ -68,7 +68,7 @@ df %>%
 
 ```
 70% of the data does not have a designated size
-- we might just remove this column?
+- might just remove this column?
 
 ```{r, message = FALSE, warning = FALSE}
 ### Examine the drive column and count
@@ -79,7 +79,7 @@ df %>%
 ```
 
 There are no Nulls in the type column, but most cars are either sedans and SUVs
-- We will probably get rid of non-normal vehicles like bus/offroad
+- will probably get rid of non-normal vehicles like bus/offroad
 
 ```{r, message = FALSE, warning = FALSE}
 ### Examine columns
@@ -87,8 +87,9 @@ df %>% colnames()
 ```
 
 
-I want to keep all of these columns if we can reliably fill the missing data
-
+I want to keep all of these columns if i can reliably fill the missing data
+- go through each column and remove rows
+- once done, do another check for missing data
 
 ```{r, message = FALSE, warning = FALSE}
 ### Examine columns
@@ -353,6 +354,8 @@ df %>%
 
 ```
 
+i am good with this
+
 ### model Column
 
 ```{r, message = FALSE, warning = FALSE}
@@ -405,6 +408,7 @@ df %>%
   arrange(desc(proportion))
 
 ```
+looks good
 
 ### cylinders Column
 
@@ -416,6 +420,86 @@ df %>%
   arrange(desc(proportion))
 
 ```
+
+most cars have 4-8 cylinders
+- 4 most common
+- 3 in subcompact cars and smaller SUVs
+- 6 in mid-sized sedans, SUVs
+- 8 for truckts and large SUVs
+
+check whats going on in 3,5,10,12, etc
+
+```{r, message = FALSE, warning = FALSE}
+# check na values
+df %>%
+  filter(is.na(cylinders))
+  
+```
+
+```{r, message = FALSE, warning = FALSE}
+# check odd cylinder values
+df %>%
+  filter((cylinders %in% c("3 cylinders", "5 cylinders", "12 cylinders", "10 cylinders", "other")))
+  
+```
+
+
+Yeah there is a lot of stuff missing here. some car makes will have different cylinders based on the specific model
+- probably drop these. since cylinders are a good indicator of price
+- can also drop the other odd cylinder values. only ~3k rows dropped from these
+
+
+
+```{r, message = FALSE, warning = FALSE}
+# remove rows with odd cylinders and NAs
+df <- df %>%
+  drop_na(cylinders) %>%
+  filter(!(cylinders %in% c("3 cylinders", "5 cylinders", "12 cylinders", "10 cylinders", "other")))
+  
+
+```
+
+```{r, message = FALSE, warning = FALSE}
+### check
+df %>% 
+  count(cylinders) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+looks good
+
+### fuel column
+
+```{r, message = FALSE, warning = FALSE}
+### Examine the cylinders column and count
+df %>%
+  count(fuel) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion))
+
+```
+
+most are gas vehicles,
+some are NA, some are other. i dont know what that means. lets check it out
+
+
+```{r, message = FALSE, warning = FALSE}
+# Remove rows with 'new' or 'salvage' in 'condition' and replace NAs with 'fair'
+df %>%
+  filter((fuel %in% c("other")))
+  
+```
+
+```{r, message = FALSE, warning = FALSE}
+# Remove rows with 'new' or 'salvage' in 'condition' and replace NAs with 'fair'
+df %>%
+  filter(is.na(fuel))
+  
+```
+
+
+
 
 
 
